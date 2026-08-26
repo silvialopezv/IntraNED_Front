@@ -1,0 +1,73 @@
+<div class="modal-header" style="background-color: #052d6c; color: white;">
+    <h3 class="modal-title">Comunicado EEASA</h3>
+    <button type="button" style="background-color: white;" class="btn-close btn-light" aria-label="Close"
+        (click)="activeModal.close('Close click')"></button>
+</div>
+<div class="modal-body">
+    <form #procesoForm="ngForm" class="row g-3">
+        <!-- Título -->
+        <div class="form-group row mt3 mt-3 mt-3">
+            <label for="observacion" class="col-form-label col-sm-2 col-form-label-sm" >Título: </label>
+            <div class="col-sm-10">
+                <textarea style="resize: none;" name="titulo" class="form-control form-control-sm" rows="2" [(ngModel)]="rComunicado.IMCOM_TITULO"></textarea>
+            </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group row mt3 mt-3 mt-3">
+            <label for="observacion" class="col-form-label col-sm-2 col-form-label-sm">Descripción: </label>
+            <div class="col-sm-10">
+                <textarea style="resize: none;" name="descripción" class="form-control form-control-sm" rows="11" [(ngModel)] = "rComunicado.IMCOM_DESCRIPCION"></textarea>
+            </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="form-group row mt3 mt-3 mt-3">
+            <label for="observacion" class="col-form-label col-sm-2 col-form-label-sm">Resumen: </label>
+            <div class="col-sm-10">
+                <textarea style="resize: none;" name="resumen" class="form-control form-control-sm" rows="4" [(ngModel)] = "rComunicado.IMCOM_RESUMEN"></textarea>
+            </div>
+        </div>
+
+        <!-- Vigente -->
+        <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-2 col-form-label-sm" for="vigente">Vigente: </label>
+            <div class="col-sm-4">
+                <select id="vigente" class="form-select form-select-sm" name="vigente" [(ngModel)] = "rComunicado.IMCOM_VIGENTE">
+                    <option value="SI">
+                        SI
+                    </option>
+                    <option value="NO">
+                        NO
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Activo -->
+        <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-2 col-form-label-sm" for="estado">Activo: </label>
+            <div class="col-sm-4">
+                <select id="activo" class="form-select form-select-sm" name="estado" [(ngModel)] = "rComunicado.IMCOM_ESTADO">
+                    <option value="S">
+                        SI
+                    </option>
+                    <option value="N">
+                        NO
+                    </option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <!-- Alerta -->
+    <div id="myAlert2" class="alert alert-warning mt-3" role="alert" style="display: none;">
+        <h4 class="alert-heading">Campo vacío</h4>
+        <hr>
+        <p id="message"></p>
+    </div>
+</div>
+<div class="modal-footer">
+    <button role="button" class="btn" style="background-color: #052d6c;color: #fff;" *ngIf="!actualizar" (click)="validarCampos()">Guardar</button>
+    <button role="button" class="btn" style="background-color: #052d6c;color: #fff;" *ngIf="actualizar" (click)="validarCamposActualizar()">Actualizar</button>
+    <button type="button" class="btn" style="background-color: #AD1212;color: #fff;" (click)="activeModal.close('Close click')">Cancelar</button>
+</div>

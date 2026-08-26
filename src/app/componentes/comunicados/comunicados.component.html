@@ -1,0 +1,77 @@
+<!-- Encabezado de la página de proceso para filtrado de datos en la tabla -->
+<!-- Alerta de filtrado -->
+<div id="myAlert" style="transition: 2s; font-family: Roboto; font-size: 14px;display: none;"
+  class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Aviso: </strong> El ingreso de campo ventana es obligatorio para la búsqueda
+  <button type="button" class="btn-close" aria-label="Close" ></button>
+</div>
+<mat-card>
+  <h2 style="text-align: center;">Comunicados</h2>
+  <hr class="dashed">
+  <div class="form-group row mt3 mt-3">
+    <!-- <label class="col-form-label col-sm-1 col-form-label-sm" for="ventana">Categoría: </label>
+    <div class="col-sm-4">
+      <select class="form-select form-select-sm" name="ventana">
+        <option>
+        </option>
+      </select>
+    </div> -->
+    <!-- Boton filtrar -->
+    <div id="btn-filtros" class="col-sm-1" style="text-align: end;">
+      <button mat-flat-button color="primary" style="background-color: #052d6c;color: #fff;" (click)="onGenerate()">
+        Filtrar
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+  <!-- Seccion de Spinner -->
+  <div style="text-align: center; display: none;" id="spinnerLoading">
+    <img src="/assets/img/loading.gif" alt="spinner" class="loadingTable" width="200px" height="100%">
+  </div>
+  <div class="container mt-3" id="tabla">
+    <!-- Botones de acción -->
+    <!-- Num Proceso -->
+    <div class="div-btn-options">
+      <button class="btn-options" mat-stroked-button color="acent" style="color: #052d6c;"
+      (click)="openModalFormProceso()">
+        <mat-icon style="color: #052d6c;">add</mat-icon>Nuevo
+      </button>
+    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="cell-border compact stripe">
+      <thead class="text-white table-bordered" style="background-color: #052d6c;color: #fff;">
+        <tr style="height: 60px;">
+          <th style="width: 100px;">N° Registro</th>
+          <th style="width: 70px;">Código</th>
+          <th style="width: 350px;">Título</th>
+          <th style="width: 350px;">Acciones</th>
+          <th style="width: 400px;">Resumen</th>
+          <th style="width: 100px;">Estado</th>
+          <th style="width: 100px;">Usuario</th>
+          <th style="width: 100px;">Fecha</th>
+          <th style="width: 100px;">Vigente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let indice of comunicados;let posicion=index">
+          <td>{{ posicion + 1 }}</td>
+          <td>{{ indice.IMCOM_CODIGO }}</td>
+          <td>{{ indice.IMCOM_TITULO }}</td>
+          <td style="text-align: center;">
+            <button mat-icon-button color="primary" (click)='openModalUpdateProceso(indice)'>
+              <mat-icon style="color: #052d6c;">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" style="color: #AD1212;" (click)='eliminarArchivo(indice)'>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td>{{ indice.IMCOM_RESUMEN }}</td>
+          <td>{{ indice.IMCOM_ESTADO}}</td>
+          <td>{{ indice.IMCOM_USUARIO}}</td>
+          <td>{{ indice.IMCOM_FECHA}}</td>
+          <td>{{ indice.IMCOM_VIGENTE}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+

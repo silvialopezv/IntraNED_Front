@@ -1,0 +1,93 @@
+<!-- Encabezado de la página de proceso para filtrado de datos en la tabla -->
+<!-- Alerta de filtrado -->
+<div id="myAlert" style="transition: 2s; font-family: Roboto; font-size: 14px;display: none;"
+  class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Aviso: </strong> El ingreso de campo ventana es obligatorio para la búsqueda
+  <button type="button" class="btn-close" (click)="ocultarAlertaBootstrap()" aria-label="Close"></button>
+</div>
+<mat-card>
+  <h2 style="text-align: center;">Archivos</h2>
+  <hr class="dashed">
+  <!-- Ventana -->
+  <div class="form-group row mt3 mt-3">
+    <label class="col-form-label col-sm-1 col-form-label-sm" for="ventana">Categoría: </label>
+    <div class="col-sm-4">
+      <select class="form-select form-select-sm" [(ngModel)]="ventanaFiltro" name="ventana">
+        <option *ngFor="let ventana of ventanas" [ngValue]="ventana">{{ventana.IMVEN_NOMBRE}}
+        </option>
+      </select>
+    </div>
+    <!-- Boton filtrar -->
+    <div id="btn-filtros" class="col-sm-1" style="text-align: end;">
+      <button mat-flat-button color="primary" style="background-color: #052d6c;color: #fff;" (click)="onGenerate()">
+        Filtrar
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+  <!-- Seccion de Spinner -->
+  <div style="text-align: center; display: none;" id="spinnerLoading">
+    <img src="/assets/img/loading.gif" alt="spinner" class="loadingTable" width="200px" height="100%">
+  </div>
+  <div class="container mt-3" id="tabla">
+    <!-- Campos de filtro -->
+    <div class="row g-3">
+      <div class="form-group col-md-4">
+        <label for="ventanaFiltro" class="col-form-label col-form-label-sm">Filtrado por Categoría: </label>
+        <div class="col-md-8">
+          <input id="ventanaFiltro" type="text" class="form-control form-control-sm" name="ventanaFiltro" readonly>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <!-- Botones de acción -->
+    <!-- Num Proceso -->
+    <div class="div-btn-options">
+      <button class="btn-options" mat-stroked-button color="primary" style="color: #052d6c;"
+        (click)="openModalFormProceso()">
+        <mat-icon style="color: #052d6c;">add</mat-icon>Nuevo
+      </button>
+    </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="cell-border compact stripe">
+      <thead class="text-white table-bordered" style="background-color: #052d6c;color: #fff;">
+        <tr style="height: 60px;">
+          <th>N° Registro</th>
+          <th>Código</th>
+          <th>Observación</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+          <th>Archivo</th>
+          <th>Activo</th>
+          <th>Vigente</th>
+          <th>Fecha Publicación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let indice of archivos;let posicion=index">
+          <td>{{ posicion + 1}}</td>
+          <td>{{ indice.IMARC_CODIGO }}</td>
+          <td>{{ indice.IMARC_OBSERVACION }}</td>
+          <td>{{ indice.IMARC_DESCRIPCION }}</td>
+          <td style="text-align: center;">
+            <button mat-icon-button color="primary" (click)='openModalUpdateProceso(indice)'>
+              <mat-icon style="color: #052d6c;">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" style="color: #AD1212;"  (click)='eliminarArchivo(indice)'>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td style="text-align: center;">
+            <a href="https://app.eeasa.com.ec/WSIntranetAD/intmaarchivo?documento={{indice.IMARC_CODIGO}}" target="_blank">
+              <button mat-icon-button color="primary">
+                <mat-icon style="color: #052d6c;">description</mat-icon>
+              </button>
+            </a>
+          </td>
+          <td>{{ indice.IMARC_ESTADO }}</td>
+          <td>{{ indice.IMARC_VIGENTE}}</td>
+          <td>{{ indice.IMARC_FECHA}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

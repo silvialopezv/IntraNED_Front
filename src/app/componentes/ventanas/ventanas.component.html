@@ -1,0 +1,61 @@
+<!-- Encabezado de la página de proceso para filtrado de datos en la tabla -->
+<mat-card>
+  <h2 style="text-align: center;">Ventanas</h2>
+  <hr class="dashed">
+  <!-- Año -->
+  <div class="form-group row mt3 mt-3">
+    <div id="btn-filtros" class="col-sm-1" style="text-align: end;">
+      <button mat-flat-button color="primary" style="background-color: #052d6c;color: #fff;"
+        (click)="onGenerate()">
+        Filtrar
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+<!-- Seccion de Spinner -->
+<div style="text-align: center; display: none;" id="spinnerLoading">
+  <img src="/assets/img/loading.gif" alt="spinner" class="loadingTable" width="200px" height="100%">
+</div>
+<div class="container mt-3" id="tabla">
+  <!-- Botones de acción -->
+  <!-- Num Ventana -->
+  <div class="div-btn-options">
+    <button class="btn-options" mat-stroked-button color="primary" style="color: #052d6c;" (click)="openModalFormVentana()">
+      <mat-icon style="color: #052d6c;">add</mat-icon>Nuevo
+    </button>
+  </div>
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="cell-border compact stripe">
+    <thead class="text-white table-bordered" style="background-color: #052d6c;color: #fff;">
+      <tr style="height: 60px;">
+        <th>N° Registro</th>
+        <th>Código</th>
+        <th>Código Menu</th>
+        <th>Acciones</th>
+        <th>Menú</th>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let indice of ventanas;let posicion=index">
+          <td>{{ posicion + 1}}</td>
+          <td>{{ indice.IMVEN_CODIGO }}</td>
+          <td>{{ indice.IMMEN_CODIGO }}</td>
+          <td style="text-align: center;">
+            <button mat-icon-button color="primary" (click)='openModalUpdateVentana(indice)'>
+              <mat-icon style="color: #052d6c;">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" style="color: #AD1212;" (click)="eliminarVentana(indice)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+          <td>{{ indice.IMMEN_NOMBRE }}</td>
+          <td>{{ indice.IMVEN_NOMBRE }}</td>
+          <td>{{ indice.IMVEN_ESTADO }}</td>
+          <td>{{ indice.IMVEN_FECHA }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,272 @@
+<div class="modal-header" style="background-color: #052d6c; color: white;">
+  <h3 class="modal-title">Proceso EEASA</h3>
+  <button type="button" style="background-color: white;" class="btn-close btn-light"
+    (click)="activeModal.close('Close click')" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+  <form #procesoForm="ngForm" class="row g-3">
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <!-- Num Proceso -->
+    <div class="form-group col-md-4">
+      <label id="numeroProceso" for="numProceso" class="col-form-label col-form-label-sm">Número Proceso: </label>
+      <div class="col-md-8">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="rProceso.INTRP_NUMEROPROCESO"
+          name="numProceso" #numProceso=ngModel required (change)="actualizarCodigoProceso()">
+          <button (click)="comprobar()"> Comprobar</button>
+      </div>
+    </div>
+
+    <!-- Fecha de Publicacion -->
+    <div class="form-group col-md-4">
+      <label for="fechaPublicacion" class="col-form-label col-form-label-sm">Fecha de Publicación: </label>
+      <div class="input-group" style="width: max-content;">
+        <input class="form-control form-control-sm" name="d1" [(ngModel)]="rProceso.INTRP_FECHA_PUBLICACION"
+          ngbDatepicker #d1="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary btn-sm calendar" (click)="d1.toggle()" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3"
+              viewBox="0 0 16 16">
+              <path
+                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+              <path
+                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Año -->
+    <div class="form-group col-md-4">
+      <label for="anio" class="col-form-label col-form-label-sm">Año: </label>
+      <div class="col-md-8">
+        <input type="number" class="form-control form-control-sm" [(ngModel)]="rProceso.INTRP_ANIO" name="anio"
+          #anio=ngModel (change)="actualizarCodigoProceso()">
+      </div>
+    </div>
+
+    <!-- Proceso -->
+    <div class="form-group row mt3 mt-3">
+      <label class="col-form-label col-sm-3 col-form-label-sm" for="proceso">Proceso: </label>
+      <div class="col-sm-6">
+        <select class="form-select  form-select-sm required" [(ngModel)]="rProceso.INTPR_CODIGO" name="proceso"
+          (change)="cargarAbreviaturaProceso(rProceso.INTPR_CODIGO)">
+          <option *ngFor="let proceso of listProceso" [ngValue]="proceso.INTPR_CODIGO">{{proceso.INTPRO_DESCRIPCION}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Codigo de proceso formato -->
+    <div class="form-group row mt3 mt-3">
+      <label for="procesoCod" class="col-form-label col-sm-3 col-form-label-sm">Código del Proceso: </label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="rProceso.INTRP_CODIGOPROCESO"
+          name="procesoCod" #procesoCod=ngModel>
+      </div>
+    </div>
+    
+    <!-- Detalle -->
+    <div class="form-group row mt3 mt-3">
+      <label for="detalle" class="col-form-label col-sm-3 col-form-label-sm">Detalle: </label>
+      <div class="col-sm-6">
+        <textarea style="resize: none;" name="detalle" [(ngModel)]="rProceso.INTRP_DETALLE" class="form-control form-control-sm"
+          #detalle=ngModel rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Departamento -->
+    <div class="form-group row mt3 mt-3">
+      <label class="col-form-label col-sm-3 col-form-label-sm" for="departamento">Departamento: </label>
+      <div class="col-sm-6">
+        <select class="form-select  form-select-sm" [(ngModel)]="rProceso.INTDEP_CODIGO" name="departamento">
+          <option *ngFor="let dep of departamento" [ngValue]="dep.INTDEP_CODIGO">{{dep.INTDEP_DESCRIPCION}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Personal -->
+    <div class="form-group row mt3 mt-3">
+      <label class="col-form-label col-sm-3 col-form-label-sm" for="personal">Personal: </label>
+      <div class="col-sm-6">
+        <select class="form-select form-select-sm" name="personal" [(ngModel)]="rProceso.DMPER_CODIGO" id="personal">
+          <option *ngFor="let empleado of empleados" [ngValue]="empleado.DMPER_CODIGO">{{empleado.NOMBRE}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Valor Presupuestado -->
+    <div class="form-group row mt3 mt-3">
+      <label for="valorPresupuesto" class="col-form-label col-sm-3 col-form-label-sm">Valor Presupuestado: </label>
+      <div class="col-sm-3">
+        <input type="number" placeholder="0" class="form-control form-control-sm"
+          [(ngModel)]="rProceso.INTRP_VALOR_PRESUPUESTO" name="valorPresupuesto" #valorPresupuesto=ngModel>
+      </div>
+    </div>
+
+    <!-- Contratista -->
+    <div class="form-group row mt3 mt-3">
+      <label class="col-form-label col-sm-3 col-form-label-sm" for="contratista">Contratista: </label>
+      <div class="col-sm-6">
+        <select class="form-select form-select-sm" [(ngModel)]="rProceso.MA_CONT_COD" name="contratista">
+          <option *ngFor="let contratista of contratistas" [ngValue]="contratista.MA_CONT_COD">
+            {{contratista.MA_CONT_RAZON_SOCIAL}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Fecha de Resolucion -->
+    <div class="form-group row mt3 mt-3">
+      <label for="fechaResolucion" class="col-form-label col-sm-3 col-form-label-sm">Fecha de Resolución: </label>
+      <div class="input-group col-sm-3" style="width: auto;">
+        <input class="form-control form-control-sm" name="d2" ngbDatepicker [(ngModel)]="rProceso.INTRP_FECHA_ADJ"
+          #d2="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary btn-sm calendar" (click)="d2.toggle()" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar3"
+              viewBox="0 0 16 16">
+              <path
+                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+              <path
+                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resolución -->
+    <div class="form-group row mt3 mt-3">
+      <label class="col-form-label col-sm-3 col-form-label-sm" for="resolucion">Resolución: </label>
+      <div class="col-sm-6">
+        <select id="opciones" class="form-select form-select-sm" [(ngModel)]="rProceso.INTRES_CODIGO" name="resolucion">
+          <option *ngFor="let resolucion of resolucionProceso" [ngValue]="resolucion.INTRES_CODIGO">
+            {{resolucion.INTRES_DETALLE}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Numero de Oficio -->
+    <div class="form-group row mt3 mt-3">
+      <label for="numOficio" class="col-form-label col-sm-3 col-form-label-sm">Número de Oficio: </label>
+      <div class="col-sm-3">
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="rProceso.INTRP_NUMOFICIO" name="numOficio"
+          #numOficio=ngModel>
+      </div>
+    </div>
+
+    <!-- Observacion -->
+    <div class="form-group row mt3 mt-3 mt-3">
+      <label for="observacion" class="col-form-label col-sm-3 col-form-label-sm">Observación: </label>
+      <div class="col-sm-6">
+        <textarea style="resize: none;" name="observacion" [(ngModel)]="rProceso.INTRP_OBSERVACION" class="form-control form-control-sm"
+          #observacion=ngModel rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Direccion -->
+    <div class="form-group row mt3 mt-3">
+      <label for="direccion" class="col-form-label col-sm-3 col-form-label-sm">Dirección Web: </label>
+      <div class="col-sm-6">
+        <textarea style="resize: none;" name="direccion" [(ngModel)]="rProceso.INTRP_DIRECCION" class="form-control form-control-sm"
+          #direccion=ngModel rows="3"></textarea>
+      </div>
+    </div>
+    <!-- Archivo -->
+    <div class="form-group row mt3 mt-3">
+      <label for="file" class="col-form-label col-sm-3 col-form-label-sm">Archivo: </label>
+      <div class="col-sm-6">
+        <input type="file" class="form-control" id="customFile" (change)="uploadFile($event)" />
+      </div>
+    </div>
+  </form>
+  <!-- Alerta -->
+  <div id="myAlert2" class="alert alert-warning mt-3" role="alert" style="display: none;">
+    <h4 class="alert-heading">Campo vacío</h4>
+    <hr>
+    <p id="message"></p>
+  </div>
+   <!-- Barra de progreso -->
+   <div id="progress" style="display: none;">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%"></div>
+    </div>
+  </div>
+</div>
+<div style="background-color: #052d6c; height: 5px;">
+</div>
+<div class="modal-body">
+  <div>
+    <label style="text-align: center;width: 100%;padding-top: 10px;font-size: 18px;">Registro de Ofertas</label>
+  </div>
+  <div class="container mt-3" id="tabla">
+          <!-- fecha y hora de la oferta -->
+          <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-3 col-form-label-sm" for="contratista">Fecha y Hora: </label>
+            <div class="col-sm-6">
+              <select class="form-select form-select-sm" [(ngModel)]="rProceso.MA_CONT_COD" name="contratista">
+                <option *ngFor="let contratista of contratistas" [ngValue]="contratista.MA_CONT_COD">
+                  {{contratista.MA_CONT_RAZON_SOCIAL}}</option>
+              </select>
+            </div>
+          </div>
+    
+        <!-- Contratista -->
+        <div class="form-group row mt3 mt-3">
+          <label class="col-form-label col-sm-3 col-form-label-sm" for="contratista">Contratista: </label>
+          <div class="col-sm-6">
+            <select class="form-select form-select-sm" [(ngModel)]="rProceso.MA_CONT_COD" name="contratista">
+              <option *ngFor="let contratista of contratistas" [ngValue]="contratista.MA_CONT_COD">
+                {{contratista.MA_CONT_RAZON_SOCIAL}}</option>
+            </select>
+          </div>
+        </div>
+  
+      <!-- Observación -->
+      <div class="form-group row mt3 mt-3">
+        <label for="detalle" class="col-form-label col-sm-3 col-form-label-sm">Observación: </label>
+        <div class="col-sm-6">
+          <textarea style="resize: none;" name="detalle" [(ngModel)]="rProceso.INTRP_DETALLE" class="form-control form-control-sm"
+            #detalle=ngModel rows="3"></textarea>
+        </div>
+      </div>
+      <div style="padding-top: 20px;"></div>
+     <!-- Seccion ofertas -->
+     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="cell-border compact stripe">
+      <thead class="text-white table-bordered" style="background-color: #052d6c;color: #fff;">
+        <tr style="height: 60px;text-align: center;align-items: center;">
+          <th>N° Registro</th>
+          <th>Contratista</th>
+          <th>Observación</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let indice of listProceso;let posicion=index">
+          <td style="text-align: center;align-items: center;">{{ posicion + 1 }}</td>
+          <td style="text-align: center;align-items: center;">Contratista</td>
+          <td >Observación de la oferta</td>
+          <td style="text-align: center;align-items: center;">fwcha y hora de la oferta</td>
+          <td style="text-align: center;">
+            <button mat-icon-button color="primary" (click)='openModalUpdateProceso(indice)'>
+              <mat-icon style="color: #052d6c;">edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" style="color: #AD1212;" (click)='eliminarResultProceso(indice)'>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button id="btnInsertar" role="button" class="btn" style="background-color: #052d6c;color: #fff;" (click)="validarCampos()" *ngIf="!actualizar">Guardar</button>
+  <button id="btnActualizar" role="button" class="btn" style="background-color: #2fcf07;color: #fff;" (click)='validarCamposActualizar()' *ngIf="actualizar">Ofertas</button>
+  <button id="btnActualizar" role="button" class="btn" style="background-color: #052d6c;color: #fff;" (click)='validarCamposActualizar()' *ngIf="actualizar">Actualizar</button>
+  <button id="btnCancelar" type="button" class="btn" style="background-color: #AD1212;color: #fff;" (click)="activeModal.close('Close click')">Cancelar</button>
+</div>

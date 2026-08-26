@@ -1,0 +1,106 @@
+<!-- ============================================================
+     Informe de Necesidad · Procesos  (solo front · datos mock)
+     ============================================================ -->
+
+<!-- Cabecera / filtros -->
+<mat-card>
+  <div class="inf-head">
+    <div>
+      <h2>Informe de Necesidad</h2>
+      <p class="inf-sub">Procesos de adquisición registrados</p>
+    </div>
+    <span class="inf-chip-demo">Datos de prueba</span>
+  </div>
+  <hr class="dashed">
+
+  <div class="form-group row mt-3">
+    <label for="anio" class="col-form-label col-sm-1 col-form-label-sm">Año</label>
+    <div class="col-sm-2">
+      <input type="number" placeholder="2026" autocomplete="off"
+        class="form-control form-control-sm" [(ngModel)]="anioParam" name="anio">
+    </div>
+  </div>
+
+  <div class="form-group row mt-3">
+    <label class="col-form-label col-sm-1 col-form-label-sm" for="proceso">Proceso</label>
+    <div class="col-sm-4">
+      <select class="form-select form-select-sm" [(ngModel)]="tipoProceso" name="proceso">
+        <option value="">Todos los procesos</option>
+        <option *ngFor="let proceso of listProceso" [value]="proceso">{{ proceso }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="inf-actions-filtro mt-3">
+    <button mat-flat-button color="primary">Filtrar</button>
+    <button mat-flat-button color="primary">Todos</button>
+  </div>
+</mat-card>
+
+<!-- Tarjeta de tabla -->
+<div class="inf-table-card">
+  <!-- Barra superior de la tabla -->
+  <div class="inf-table-toolbar">
+    <button class="btn-nuevo" mat-stroked-button color="primary" (click)="nuevo()">
+      <mat-icon>add</mat-icon> Nuevo
+    </button>
+
+    <div class="inf-search">
+      <mat-icon>search</mat-icon>
+      <input type="text" [(ngModel)]="filtro" name="buscar"
+        placeholder="Buscar proceso, código, detalle o área...">
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div class="inf-table-scroll">
+    <table class="tabla-pro">
+      <thead>
+        <tr>
+          <th class="col-num">N°</th>
+          <th>N° Proceso</th>
+          <th>Código</th>
+          <th class="col-detalle">Detalle</th>
+          <th>Área</th>
+          <th class="col-estado">Estado</th>
+          <th class="col-valor">Valor Estimado</th>
+          <th>Fecha</th>
+          <th class="col-acciones">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of procesosFiltrados">
+          <td class="col-num">{{ p.registro }}</td>
+          <td class="td-mono">{{ p.numeroProceso }}</td>
+          <td class="td-mono">{{ p.codigo }}</td>
+          <td class="col-detalle">{{ p.detalle }}</td>
+          <td>{{ p.area }}</td>
+          <td class="col-estado">
+            <span class="badge-estado" [ngClass]="claseEstado(p.estado)">{{ p.estado }}</span>
+          </td>
+          <td class="col-valor">{{ p.valor | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ p.fecha }}</td>
+          <td class="col-acciones">
+            <button class="ico-btn ico-ver" matTooltip="Ver archivo"><mat-icon>description</mat-icon></button>
+            <button class="ico-btn ico-editar" matTooltip="Editar" (click)="editar(p)"><mat-icon>edit</mat-icon></button>
+            <button class="ico-btn ico-eliminar" matTooltip="Eliminar" (click)="eliminar(p)"><mat-icon>delete</mat-icon></button>
+          </td>
+        </tr>
+
+        <!-- Estado vacío -->
+        <tr *ngIf="procesosFiltrados.length === 0">
+          <td colspan="9" class="inf-empty">
+            <mat-icon>inbox</mat-icon>
+            <span>No se encontraron procesos para «{{ filtro }}»</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pie de tabla -->
+  <div class="inf-table-footer">
+    Mostrando <strong>{{ procesosFiltrados.length }}</strong> de
+    <strong>{{ procesos.length }}</strong> registros
+  </div>
+</div>

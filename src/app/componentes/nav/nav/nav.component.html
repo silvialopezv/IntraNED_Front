@@ -1,0 +1,120 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+      <mat-toolbar>
+        <img src="/assets/img/logotipo2.png" alt="" width="200px">
+      </mat-toolbar>
+      <mat-divider></mat-divider>
+      <mat-nav-list>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon mat-list-icon>info</mat-icon>
+                <div mat-line>Información EEASA</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider></mat-divider>
+            <mat-selection-list #shows [multiple]="false">
+              <mat-list-option [routerLink]="['/ventanas']" *ngIf="this.usuarioObtenido.intranet_admin == 'SI'">
+                Clasificación de la Información
+              </mat-list-option>
+              <mat-divider></mat-divider>
+              <mat-list-option [routerLink]="['/comunicados']" *ngIf="this.usuarioObtenido.intranet_admin == 'SI' || this.usuarioObtenido.intranet_comunicados == 'SI'">
+                Comunicados
+                <mat-divider></mat-divider>
+              </mat-list-option>
+              
+              <mat-list-option [routerLink]="['/procesos']" *ngIf="this.usuarioObtenido.intranet_procesos == 'SI' || this.usuarioObtenido.intranet_admin == 'SI'">
+                Procesos Portal
+                <mat-divider></mat-divider>
+              </mat-list-option>
+            </mat-selection-list>
+
+            <!-- Sub-menú: Informe Necesidad (debajo de Procesos Portal) -->
+            <mat-accordion class="submenu-accordion"
+              *ngIf="this.usuarioObtenido.intranet_procesos == 'SI' || this.usuarioObtenido.intranet_admin == 'SI'">
+              <mat-expansion-panel class="submenu-panel">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <mat-icon mat-list-icon>assignment</mat-icon>
+                    <div mat-line>Informe Necesidad</div>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-selection-list #shInf [multiple]="false">
+                  <mat-list-option [routerLink]="['/informe-necesidad/procesos']">
+                    Procesos
+                  </mat-list-option>
+                </mat-selection-list>
+              </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-selection-list #shows2 [multiple]="false">
+              <mat-list-option [routerLink]="['/archivos']" *ngIf="this.usuarioObtenido.intranet_admin == 'SI' || this.usuarioObtenido.intranet_archivos == 'SI'">
+                Ingreso de Información
+                <mat-divider></mat-divider>
+              </mat-list-option>
+              <mat-list-option [routerLink]="['/menu']" *ngIf="this.usuarioObtenido.intranet_admin == 'SI'">
+                Menú
+                <mat-divider></mat-divider>
+              </mat-list-option>
+<!--   
+              <mat-list-option *ngIf="this.usuarioObtenido.intranet_admin == 'SI'">
+                Información de procesos
+              </mat-list-option> -->
+            </mat-selection-list>
+          </mat-expansion-panel>
+  
+          <mat-expansion-panel *ngIf="this.usuarioObtenido.intranet_admin == 'SI'">
+            <!-- Opción Reporte Daños -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon mat-list-icon>feed</mat-icon>
+                <div mat-line>Reporte Daños</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-selection-list #shoes [multiple]="false">
+              <mat-list-option>
+                Procesos1
+              </mat-list-option>
+            </mat-selection-list>
+          </mat-expansion-panel>
+          <mat-expansion-panel *ngIf="this.usuarioObtenido.intranet_admin == 'SI'">
+            <!-- Opción Atención de Daños  -->
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon mat-list-icon>report_problem</mat-icon>
+                <div mat-line>Atencion Daños</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary" class="app-toolbar">
+        <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span class="app-brand">Intranet EEASA</span>
+        <span class="example-spacer"></span>
+        <!-- Chip de usuario (solo información) -->
+        <div class="user-chip">
+          <div class="user-avatar">{{ iniciales }}</div>
+          <div class="user-meta">
+            <span class="user-label">Usuario</span>
+            <span class="user-name">{{ this.usuarioObtenido.nombre_completo }}</span>
+          </div>
+        </div>
+        <!-- Botón de cerrar sesión con estilo propio -->
+        <button type="button" class="logout-btn" (click)="cerrarSesion()" matTooltip="Cerrar Sesión">
+          <mat-icon aria-label="Cerrar sesión">logout</mat-icon>
+          <span class="logout-text">Salir</span>
+        </button>
+      </mat-toolbar>
+      <!-- Contenido  -->
+      <router-outlet></router-outlet>
+  
+    </mat-sidenav-content>
+  </mat-sidenav-container>

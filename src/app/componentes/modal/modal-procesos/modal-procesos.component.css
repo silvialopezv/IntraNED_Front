@@ -1,0 +1,32 @@
+.progress{
+    margin-top: 10px;
+}
+/* *:not(.mat-icon, h2, btn){
+    font-size: 12px;
+} */
+
+.container {
+    overflow: auto;
+}
+
+.mat-card{
+    margin: 5px;
+}
+
+.btn-options{
+    width: 117px;
+    margin:10px 10px 10px 0px;
+}
+
+.div-btn-options{
+    margin-bottom: 10px;
+}
+
+.titulo-pagina{
+    text-align: center;
+    font-size: 20px;
+}
+
+.btn{
+    font-size: 14px;
+}

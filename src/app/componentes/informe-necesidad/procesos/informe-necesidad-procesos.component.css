@@ -1,0 +1,214 @@
+/* ============================================================
+   Informe de Necesidad · Procesos — estilos de la vista/tabla
+   (usa las variables de marca definidas en styles.css)
+   ============================================================ */
+
+/* --- Cabecera de la tarjeta de filtros --- */
+.inf-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.inf-head h2 {
+  margin: 0;
+  color: var(--brand);
+  font-weight: 600;
+}
+.inf-sub {
+  margin: 2px 0 0;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.inf-chip-demo {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: #a86a00;
+  background: #fff4e0;
+  border: 1px solid #ffe2ad;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.inf-actions-filtro {
+  display: flex;
+  gap: 10px;
+}
+
+/* ============================================================
+   Tarjeta de la tabla
+   ============================================================ */
+.inf-table-card {
+  margin: 0 18px 26px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Barra superior: Nuevo + buscador */
+.inf-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  background: #fbfcfe;
+  flex-wrap: wrap;
+}
+.btn-nuevo {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Buscador */
+.inf-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 260px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #fff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.inf-search:focus-within {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(5,45,108,.12);
+}
+.inf-search mat-icon {
+  color: var(--ink-soft);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+.inf-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--ink);
+  width: 100%;
+}
+
+/* ============================================================
+   Tabla profesional
+   ============================================================ */
+.inf-table-scroll {
+  overflow-x: auto;
+}
+.tabla-pro {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  min-width: 900px;
+}
+
+/* Encabezado */
+.tabla-pro thead th {
+  background: linear-gradient(180deg, #0a3f8f 0%, #052d6c 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .3px;
+  text-align: left;
+  padding: 14px 16px;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+}
+
+/* Celdas */
+.tabla-pro tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid #eef1f6;
+  color: var(--ink);
+  vertical-align: middle;
+}
+.tabla-pro tbody tr:nth-child(even) { background: #f8fafd; }
+.tabla-pro tbody tr:hover { background: var(--brand-050); }
+.tabla-pro tbody tr:last-child td { border-bottom: none; }
+
+/* Columnas específicas */
+.col-num { width: 56px; text-align: center; color: var(--ink-soft); font-weight: 600; }
+.col-detalle { min-width: 320px; }
+.col-valor { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.tabla-pro thead th.col-valor { text-align: right; }
+.col-estado { text-align: center; }
+.tabla-pro thead th.col-estado { text-align: center; }
+.col-acciones { width: 130px; text-align: center; white-space: nowrap; }
+.tabla-pro thead th.col-acciones { text-align: center; }
+.td-mono { font-family: "Roboto Mono", "Consolas", monospace; font-size: 13px; color: var(--brand); font-weight: 500; }
+
+/* Badges de estado */
+.badge-estado {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .2px;
+  white-space: nowrap;
+}
+.est-proceso    { background: #e5efff; color: #0a4aa0; }
+.est-adjudicado { background: #e6f7ec; color: #127a3e; }
+.est-publicado  { background: #fff4e0; color: #a86a00; }
+.est-desierto   { background: #fdeaea; color: #b3261e; }
+.est-finalizado { background: #eef1f6; color: #48566b; }
+
+/* Botones de acción */
+.ico-btn {
+  border: none;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .15s ease, color .15s ease;
+}
+.ico-btn mat-icon {
+  font-size: 19px;
+  width: 19px;
+  height: 19px;
+}
+.ico-ver     { color: #0a4aa0; }
+.ico-editar  { color: #0a7d3e; }
+.ico-eliminar{ color: #b3261e; }
+.ico-ver:hover     { background: #e5efff; }
+.ico-editar:hover  { background: #e6f7ec; }
+.ico-eliminar:hover{ background: #fdeaea; }
+
+/* Estado vacío */
+.inf-empty {
+  text-align: center;
+  padding: 40px 16px !important;
+  color: var(--ink-soft);
+}
+.inf-empty mat-icon {
+  display: block;
+  margin: 0 auto 8px;
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #c3cbd8;
+}
+
+/* Pie de tabla */
+.inf-table-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  background: #fbfcfe;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+.inf-table-footer strong { color: var(--brand); }

@@ -1,0 +1,109 @@
+<div class="modal-header" style="background-color: #052d6c; color: white;">
+    <h3 class="modal-title">Archivo EEASA</h3>
+    <button type="button" style="background-color: white;" class="btn-close btn-light"
+        (click)="activeModal.close('Close click')" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form #procesoForm="ngForm" class="row g-3">
+        <!-- Fecha -->
+        <div class="form-group row mt3 mt-3">
+            <label for="fechaResolucion" class="col-form-label col-sm-4 col-form-label-sm">Fecha Publicación: </label>
+            <div class="input-group col-sm-5" style="width: auto;">
+                <input class="form-control form-control-sm" name="d1" [(ngModel)]="rArchivo.IMARC_FECHA" ngbDatepicker
+                    #d1="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-sm calendar" (click)="d1.toggle()" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                            class="bi bi-calendar3" viewBox="0 0 16 16">
+                            <path
+                                d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                            <path
+                                d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Ventana -->
+        <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-4 col-form-label-sm" for="ventana">Categoría: </label>
+            <div class="col-sm-8">
+                <select class="form-select  form-select-sm required" name="ventana" [(ngModel)]="rArchivo.IMVEN_CODIGO">
+                    <option *ngFor="let ventana of ventanas" [ngValue]="ventana.IMVEN_CODIGO">
+                        {{ventana.IMVEN_NOMBRE}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!-- Observacion -->
+        <div class="form-group row mt3 mt-3 mt-3">
+            <label for="observacion" class="col-form-label col-sm-4 col-form-label-sm">Detalle: </label>
+            <div class="col-sm-8">
+                <textarea style="resize: none;" name="observacion" [(ngModel)]="rArchivo.IMARC_OBSERVACION"
+                    class="form-control form-control-sm" rows="3"></textarea>
+            </div>
+        </div>
+
+        <!-- Vigente -->
+        <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-4 col-form-label-sm" for="vigente">Vigente: </label>
+            <div class="col-sm-8">
+                <select id="vigente" class="form-select form-select-sm" name="vigente"
+                    [(ngModel)]="rArchivo.IMARC_VIGENTE">
+                    <option value="SI">
+                        SI
+                    </option>
+                    <option value="NO">
+                        NO
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Activo -->
+        <div class="form-group row mt3 mt-3">
+            <label class="col-form-label col-sm-4 col-form-label-sm" for="estado">Activo: </label>
+            <div class="col-sm-8">
+                <select id="activo" class="form-select form-select-sm" name="estado"
+                    [(ngModel)]="rArchivo.IMARC_ESTADO">
+                    <option value="1">
+                        SI
+                    </option>
+                    <option value="0">
+                        NO
+                    </option>
+                </select>
+            </div>
+        </div>
+
+
+        <!-- Archivo -->
+        <div class="form-group row mt3 mt-3">
+            <label for="file" class="col-form-label col-sm-4 col-form-label-sm">Archivo: </label>
+            <div class="col-sm-8">
+                <input type="file" class="form-control" id="customFile" (change)="uploadFile($event)" />
+            </div>
+        </div>
+    </form>
+    <!-- Alerta -->
+    <div id="myAlert2" class="alert alert-warning mt-3" role="alert" style="display: none;">
+        <h4 class="alert-heading">Campo vacío</h4>
+        <hr>
+        <p id="message"></p>
+    </div>
+    <!-- Barra de progreso -->
+    <div id="progress" style="display: none;">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:100%"></div>
+        </div>
+      </div>
+    
+</div>
+<div class="modal-footer">
+    <button id="btnInsertar" role="button" class="btn" style="background-color: #052d6c;color: #fff;"
+        (click)="validarCampos()" *ngIf="!actualizar">Guardar</button>
+    <button id="btnActualizar" role="button" class="btn" style="background-color: #052d6c;color: #fff;"
+        (click)='validarCamposActualizar()' *ngIf="actualizar">Actualizar</button>
+    <button id="btnCancelar" type="button" class="btn" style="background-color: #AD1212;color: #fff;"
+        (click)="activeModal.close('Close click')">Cancelar</button>
+</div>

@@ -1,0 +1,118 @@
+<!-- Encabezado de la página de proceso para filtrado de datos en la tabla -->
+<!-- Alerta de filtrado -->
+<div id="myAlert" style="transition: 2s; font-family: Roboto; font-size: 14px;display: none;"
+  class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Aviso: </strong> El ingreso de campos Año y Proceso son obligatorios para el filtrado. Ingrese los campos
+  solicitados de manera correcta
+  <button type="button" class="btn-close" (click)="ocultarAlertaBootstrap()" aria-label="Close"></button>
+</div>
+<mat-card>
+  <h2 style="text-align: center;">Procesos</h2>
+  <hr class="dashed">
+  <!-- Año -->
+  <div class="form-group row mt3 mt-3">
+    <label for="anio" class="col-form-label col-sm-1 col-form-label-sm" id="anio">Año</label>
+    <div class="col-sm-1">
+      <input type="number" placeholder="2021" autocomplete="off" class="form-control form-control-sm"
+        [(ngModel)]="anioParam" name="anio" #anio=ngModel>
+    </div>
+  </div>
+  <!-- Tipo de Proceso -->
+  <div class="form-group row mt3 mt-3">
+    <label class="col-form-label col-sm-1 col-form-label-sm" for="proceso">Proceso</label>
+    <div class="col-sm-4">
+      <select class="form-select form-select-sm" [(ngModel)]="tipoProceso" name="proceso">
+        <option *ngFor="let proceso of listProceso" [ngValue]="proceso">{{proceso.INTPRO_DESCRIPCION}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group row mt3 mt-3">
+    <!-- Boton filtrar -->
+    <div id="btn-filtros" class="col-sm-1" style="text-align: end;">
+      <button mat-flat-button color="primary" style="background-color: #052d6c;color: #fff;" (click)="onGenerate()">
+        Filtrar
+      </button>
+    </div>
+    <div id="btn-filtros" class="col-sm-1" style="text-align: end;">
+      <button mat-flat-button color="primary" style="background-color: #052d6c;color: #fff;"
+        (click)="onGenerateSinFiltro()">
+        Todos
+      </button>
+    </div>
+  </div>
+  <!-- Seccion de tabla -->
+</mat-card>
+
+<!-- Seccion de Spinner -->
+<div style="text-align: center; display: none;" id="spinnerLoading">
+  <img src="/assets/img/loading.gif" alt="spinner" class="loadingTable" width="200px" height="100%">
+</div>
+<div class="container mt-3" id="tabla">
+  <!-- Campos de información de filtro -->
+  <div class="row g-3">
+    <div class="form-group col-md-4">
+      <label for="anioParam" class="col-form-label col-form-label-sm">Filtrado por año:</label>
+      <div class="col-md-8">
+        <input id="anioParam" type="text" class="form-control form-control-sm" name="anioParam" readonly>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="tipoProceso" class="col-form-label col-form-label-sm">Tipo de Proceso: </label>
+      <div class="col-md-8">
+        <input id="tipoProceso" type="text" class="form-control form-control-sm" name="tipoProceso" readonly>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <!-- Botones de acción -->
+  <!-- Num Proceso -->
+  <div class="div-btn-options">
+    <button class="btn-options" mat-stroked-button color="primary" style="color: #052d6c;"
+      (click)="openModalFormProceso()">
+      <mat-icon style="color: #052d6c;">add</mat-icon>Nuevo
+    </button>
+  </div>
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="cell-border compact stripe">
+    <thead class="text-white table-bordered" style="background-color: #052d6c;color: #fff;">
+      <tr style="height: 60px;">
+        <th>N° Registro</th>
+        <th>N° Proceso</th>
+        <th>Código</th>
+        <th>Detalle</th>
+        <th>Acciones</th>
+        <th>Archivo</th>
+        <th>Fecha Publicación</th>
+        <th>Estado de Proceso</th>
+        <th>Valor Presupuestado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let indice of resulProceso;let posicion=index">
+        <td>{{ posicion + 1 }}</td>
+        <td>{{ indice.INTRP_NUMEROPROCESO }}</td>
+        <td>{{ indice.INTRP_CODIGOPROCESO}}</td>
+        <td>{{ indice.INTRP_DETALLE }}</td>
+        <td style="text-align: center;">
+          <button mat-icon-button color="primary" (click)='openModalUpdateProceso(indice)'>
+            <mat-icon style="color: #052d6c;">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" style="color: #AD1212;" (click)='eliminarResultProceso(indice)'>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+        <td style="text-align: center;">
+          <a href="https://app.eeasa.com.ec/WSIntranetAD/archivo?documento={{indice.INTRP_CODIGO}}" target="_blank">
+            <button mat-icon-button color="primary">
+              <mat-icon style="color: #052d6c;">description</mat-icon>
+            </button>
+          </a>
+        </td>
+        <td>{{ indice.INTRP_FECHA_PUBLICACION}}</td>
+        <td>{{ indice.RES_DETALLE }}</td>
+        <td>{{ indice.INTRP_VALOR_PRESUPUESTO}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
