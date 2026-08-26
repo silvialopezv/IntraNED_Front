@@ -24,9 +24,16 @@ export class NavComponent {
   cont: number = 1;
   usuarioObtenido: UsuarioDatos = new UsuarioDatos();
 
+  //Estado del tema (claro / oscuro)
+  darkMode: boolean = false;
+
   constructor(private breakpointObserver: BreakpointObserver, private wsIntranet: IntranetResulProcesosService) { }
 
   ngOnInit(): void {
+    //Cargar preferencia de tema guardada
+    this.darkMode = localStorage.getItem('tema') === 'oscuro';
+    this.aplicarTema();
+
     document.cookie = "user_eeasa=slopez; path=/;domain=" + document.domain.toString();
 
     //Regex que permite tomar el valor de la cookie user_eeasa
@@ -70,6 +77,22 @@ export class NavComponent {
       window.location.reload();
     }
     this.cont++;
+  }
+
+  //Alterna entre modo claro y oscuro y guarda la preferencia
+  toggleTema() {
+    this.darkMode = !this.darkMode;
+    localStorage.setItem('tema', this.darkMode ? 'oscuro' : 'claro');
+    this.aplicarTema();
+  }
+
+  //Aplica (o quita) la clase de tema oscuro al body
+  private aplicarTema() {
+    if (this.darkMode) {
+      document.body.classList.add('theme-dark');
+    } else {
+      document.body.classList.remove('theme-dark');
+    }
   }
 
   //Cierra la sesión expira la cookie y borra la sesión de usuario

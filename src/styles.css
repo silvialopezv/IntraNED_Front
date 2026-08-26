@@ -454,3 +454,118 @@ table.dataTable tbody tr td.dataTables_empty { color: var(--ink-soft) !important
 .modal-content { border: none; border-radius: var(--radius); overflow: hidden; }
 .modal-header  { border-bottom: none; }
 .modal-body    { color: var(--ink); }
+
+/* Botón de modo oscuro / claro en la toolbar */
+.theme-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color .15s ease, transform .2s ease;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.14); }
+.theme-toggle:active { transform: scale(.92); }
+.theme-toggle mat-icon { color: #fff; }
+
+/* ============================================================
+   9. MODO OSCURO  (body.theme-dark)
+   Redefine las variables de marca y ajusta las superficies
+   con colores fijos para lograr una combinación coherente.
+   ============================================================ */
+body.theme-dark {
+  --brand:      #3b7de0;   /* azul más luminoso para acentos    */
+  --brand-600:  #5a93e8;
+  --brand-400:  #6ea6ee;
+  --brand-050:  #1a2640;   /* tinte de hover en oscuro           */
+  --app-bg:     #0e1520;   /* lienzo                             */
+  --surface:    #18212f;   /* tarjetas / superficies             */
+  --ink:        #e6eaf2;   /* texto principal                    */
+  --ink-soft:   #93a1b5;   /* texto secundario                   */
+  --border:     #29344a;   /* bordes                             */
+  --shadow:     0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.40);
+  background-color: var(--app-bg);
+}
+
+/* --- Sidebar --- */
+body.theme-dark .sidenav {
+  background: linear-gradient(180deg, #141d2a 0%, #0f1621 100%) !important;
+  border-right: 1px solid #29344a;
+}
+body.theme-dark .sidenav .mat-toolbar {
+  background: #eef1f6 !important;   /* mantiene visible el logo oscuro */
+  border-bottom: 1px solid #29344a;
+}
+body.theme-dark .sidenav .mat-expansion-panel { border-bottom-color: #232f42; }
+body.theme-dark .sidenav .mat-expansion-panel-header:hover { background: rgba(255,255,255,.05) !important; }
+body.theme-dark .sidenav .mat-expansion-panel-header-title,
+body.theme-dark .sidenav .mat-line { color: #8fb3ea !important; }
+body.theme-dark .sidenav .mat-list-icon,
+body.theme-dark .sidenav .mat-icon { color: #8fb3ea !important; }
+body.theme-dark .sidenav .mat-list-option { color: #b9c3d4 !important; }
+body.theme-dark .sidenav .mat-list-option:hover {
+  background: rgba(255,255,255,.06) !important;
+  color: #fff !important;
+}
+body.theme-dark .sidenav .mat-list-single-selected-option {
+  background: #2258b8 !important;
+  color: #fff !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,.45);
+}
+body.theme-dark .sidenav .submenu-panel.mat-expansion-panel { background: rgba(255,255,255,.02) !important; }
+body.theme-dark .sidenav .mat-divider { border-top-color: #232f42 !important; }
+
+/* --- Barra superior: un poco más profunda en oscuro --- */
+body.theme-dark .mat-toolbar.mat-primary,
+body.theme-dark .app-toolbar.mat-toolbar {
+  background: linear-gradient(90deg, #0a1420 0%, #0e2138 100%) !important;
+  border-bottom: 3px solid #2258b8;
+}
+
+/* --- Tarjetas --- */
+body.theme-dark .mat-card { box-shadow: var(--shadow) !important; }
+body.theme-dark .mat-card h2 { color: #8fb3ea; }
+
+/* --- Tabla profesional (Informe de Necesidad) --- */
+body.theme-dark .inf-table-card { background: var(--surface); border-color: var(--border); }
+body.theme-dark .inf-table-toolbar { background: #131b27; border-bottom-color: var(--border); }
+body.theme-dark .inf-table-footer  { background: #131b27; border-top-color: var(--border); color: var(--ink-soft); }
+body.theme-dark .inf-search { background: #0f1621; border-color: var(--border); }
+body.theme-dark .inf-search input { color: var(--ink); }
+body.theme-dark .tabla-pro tbody td { color: var(--ink); border-bottom-color: #232f42; }
+body.theme-dark .tabla-pro tbody tr:nth-child(even) { background: #141d2a; }
+body.theme-dark .tabla-pro tbody tr:hover { background: #1b2740; }
+body.theme-dark .td-mono { color: #8fb3ea; }
+
+/* --- DataTables (procesos, archivos, etc.) --- */
+body.theme-dark #tabla,
+body.theme-dark .container#tabla { background: var(--surface); border-color: var(--border); }
+body.theme-dark div.dataTables_wrapper { color: var(--ink-soft) !important; }
+body.theme-dark table.dataTable tbody td { color: var(--ink) !important; border-color: #232f42 !important; }
+body.theme-dark table.dataTable tbody tr:nth-child(even) { background: #141d2a !important; }
+body.theme-dark table.dataTable tbody tr:hover { background: #1b2740 !important; }
+body.theme-dark table.dataTable tbody tr td.dataTables_empty { color: var(--ink-soft) !important; }
+
+/* --- Controles de formulario --- */
+body.theme-dark .form-control,
+body.theme-dark .form-select,
+body.theme-dark .dataTables_wrapper .dataTables_filter input,
+body.theme-dark .dataTables_wrapper .dataTables_length select {
+  background: #0f1621;
+  color: var(--ink);
+  border-color: var(--border);
+}
+body.theme-dark .form-control::placeholder { color: #6b7787; }
+body.theme-dark .form-control[readonly] { background: #131b27; }
+
+/* --- Modales --- */
+body.theme-dark .modal-content { background: var(--surface); color: var(--ink); }
+body.theme-dark .modal-body { color: var(--ink); }
+
+/* --- El botón de tema queda oscuro cuando el logo-header es claro (n/a) --- */
+body.theme-dark .theme-toggle { color: #fff; }

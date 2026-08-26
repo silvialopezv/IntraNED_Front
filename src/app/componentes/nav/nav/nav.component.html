@@ -99,6 +99,11 @@
         </button>
         <span class="app-brand">Intranet EEASA</span>
         <span class="example-spacer"></span>
+        <!-- Botón de modo oscuro / claro -->
+        <button type="button" class="theme-toggle" (click)="toggleTema()"
+          [matTooltip]="darkMode ? 'Modo claro' : 'Modo oscuro'">
+          <mat-icon>{{ darkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
         <!-- Chip de usuario (solo información) -->
         <div class="user-chip">
           <div class="user-avatar">{{ iniciales }}</div>
